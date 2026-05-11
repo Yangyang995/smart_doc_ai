@@ -21,8 +21,7 @@ class Agent:
                 model=MODEL_NAME,
                 dashscope_api_key=DASHSCOPE_API_KEY,
                 temperature=TEMPERATURE,
-                max_tokens=MAX_TOKENS,
-                streaming=True
+                max_tokens=MAX_TOKENS
             )
         else:
             raise ValueError("请配置 DASHSCOPE_API_KEY")
@@ -34,18 +33,19 @@ class Agent:
 ## 可用工具：
 1. rag_qa(query): 从知识库中检索信息回答问题
 2. document_summary(document_name, summary_type): 对指定文档进行总结
-3. text_translation(text, target_language): 文本翻译
+3. text_translation(text, target_language, document_name): 翻译文本或文档。翻译文档时传document_name（文档名），翻译指定文本时传text
 4. term_explanation(term): 术语解释
 5. text_polish(text, polish_type): 文本润色
 
 ## 工作流程：
-1. 如果用户要求"总结"某个文档，调用 document_summary 工具
+1. 如果用户要求"总结"某个文档，调用 document_summary 工具，传入文档名
 2. 如果用户问问题，调用 rag_qa 工具检索相关信息
-3. 如果用户要求翻译，调用 text_translation 工具
-4. 如果用户要求解释术语，调用 term_explanation 工具
-5. 如果用户要求润色文本，调用 text_polish 工具
+3. 如果用户要求翻译某篇文档，调用 text_translation 工具，传入 document_name（文档名）和 target_language（目标语言）
+4. 如果用户要求翻译一段具体文本，调用 text_translation 工具，传入 text（文本内容）
+5. 如果用户要求解释术语，调用 term_explanation 工具
+6. 如果用户要求润色文本，调用 text_polish 工具
 
-请根据用户的问题选择最合适的工具！"""
+请根据用户的问题选择最合适的工具和参数！"""
 
     def _create_agent(self):
         """创建 Agent"""
@@ -73,9 +73,9 @@ class Agent:
 
     def stream(self, query):
         """
-        流式输出 Agent 响应（token级别流式输出）
-        :param query: 用户输入
-        :return: 生成器，逐token返回响应内容
+        流式输出 Agent 响应
+        使用 stream_mode="updates" 获取图节点级别的更新，
+        通过计算内容增量实现流式效果，同时兼容 function calling。
         """
         try:
             input_dict = {
@@ -84,27 +84,30 @@ class Agent:
                 ]
             }
 
-            for chunk in self.agent.stream(input_dict, stream_mode="messages"):
-                # stream_mode="messages" 返回 (message, metadata) 元组
-                if not isinstance(chunk, tuple) or len(chunk) < 1:
-                    continue
+            previous_content = ""
 
-                message = chunk[0]
-                metadata = chunk[1] if len(chunk) > 1 else {}
+            for chunk in self.agent.stream(input_dict, stream_mode="updates"):
+                for node_name, node_output in chunk.items():
+                    if "messages" not in node_output:
+                        continue
 
-                # 只输出 AI 模型节点产生的消息，过滤工具调用和用户消息
-                msg_type = message.__class__.__name__ if hasattr(message, '__class__') else ''
-                if 'AI' not in msg_type:
-                    continue
+                    for msg in node_output["messages"]:
+                        if not hasattr(msg, 'content') or not msg.content:
+                            continue
+                        if not isinstance(msg.content, str):
+                            continue
+                        if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                            continue
 
-                if not hasattr(message, 'content') or not message.content:
-                    continue
+                        content = msg.content
+                        if len(content) > len(previous_content):
+                            new_content = content[len(previous_content):]
+                            for char in new_content:
+                                yield char
+                            previous_content = content
 
-                # 跳过工具调用相关的 AI 消息（没有实际文本内容）
-                if hasattr(message, 'tool_calls') and message.tool_calls:
-                    continue
-
-                yield message.content
+            if not previous_content:
+                yield "抱歉，未能生成回复，请重试。"
 
         except Exception as e:
             yield f"Agent 运行失败: {str(e)}"

@@ -50,8 +50,8 @@ def document_summary(document_name: str, summary_type: str = "摘要") -> str:
 
 # ====================== 工具 3：文本翻译 ======================
 @tool
-def text_translation(text: str, target_language: str = "英文") -> str:
-    """支持中英文互译，可指定目标语言"""
+def text_translation(text: str = "", target_language: str = "英文", document_name: str = "") -> str:
+    """翻译文本或文档内容。翻译文档时传入document_name（文档名），翻译指定文本时传入text。target_language为目标语言，默认英文"""
     try:
         llm = ChatTongyi(
             model=MODEL_NAME,
@@ -59,7 +59,23 @@ def text_translation(text: str, target_language: str = "英文") -> str:
             temperature=TEMPERATURE,
             max_tokens=MAX_TOKENS
         )
-        prompt = f"请将以下文本翻译成{target_language}：\n{text}\n\n{target_language}："
+
+        content_to_translate = text
+
+        # 如果指定了文档名，从向量库检索文档内容
+        if document_name:
+            retriever = Retriever()
+            query = f"请获取 {document_name} 的全部内容"
+            docs = retriever.retrieve(query)
+            relevant_docs = [doc for doc in docs if doc.metadata.get('filename') == document_name]
+            if not relevant_docs:
+                return f"未找到文档: {document_name}"
+            content_to_translate = "\n".join([doc.page_content for doc in relevant_docs])
+
+        if not content_to_translate:
+            return "请提供需要翻译的文本或文档名称"
+
+        prompt = f"请将以下文本翻译成{target_language}：\n{content_to_translate}\n\n{target_language}："
         response = llm.invoke(prompt)
         return response.content
     except Exception as e:

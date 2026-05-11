@@ -1350,3 +1350,147 @@ RAG 的优势在于：
 
 **总结**：  
 在此语境下，“agent” 不仅是一个技术模块，更是一种**智能化的工作范式**——它标志着 AI 正从“响应式工具”升级为“主动型协作者”，是迈向通用人工智能（AGI）的重要实践路径。
+2026-05-11 21:42:58,749 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:05,625 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:07,031 - __main__ - INFO - 用户输入: 你好
+2026-05-11 21:43:07,032 - __main__ - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-11 21:43:11,590 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:14,356 - __main__ - INFO - 用户输入: 你是谁
+2026-05-11 21:43:14,356 - __main__ - INFO - Agent 响应: 我是一个专业的文档分析助手，能够帮助您总结文档、回答问题、翻译文本、解释术语以及润色文字。我可以使用多种工具来处理和分析文档内容，为您提供准确和有用的信息。有什么我可以帮您的吗？
+2026-05-11 21:43:38,162 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:38,318 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:44,796 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:46,171 - __main__ - INFO - 用户输入: 你好
+2026-05-11 21:43:46,171 - __main__ - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-11 21:43:53,089 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:43:54,622 - __main__ - INFO - 用户输入: 我叫小李
+2026-05-11 21:43:54,623 - __main__ - INFO - Agent 响应: 你好，小李！很高兴认识你。有什么我可以帮你的吗？
+2026-05-11 21:44:04,795 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:44:06,741 - __main__ - INFO - 用户输入: 你还记得我是谁吗
+2026-05-11 21:44:06,742 - __main__ - INFO - Agent 响应: 我无法记住用户的身份信息。每次对话对我来说都是独立的，我不会保留或回忆之前的对话内容。如果您有任何问题或需要帮助，请随时告诉我！
+2026-05-11 21:44:29,227 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx', 'Agent介绍.docx']
+2026-05-11 21:44:29,297 - __main__ - INFO - 文档 'Agent介绍.docx' 删除成功
+2026-05-11 21:44:29,946 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 21:44:33,332 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 21:44:52,181 - __main__ - INFO - 用户输入: 什么是rag
+2026-05-11 21:44:52,182 - __main__ - INFO - Agent 响应: 在上述上下文中，“RAG” 是 “Retrieval-Augmented Generation”（检索增强生成）的缩写，指的是一种先进的人工智能技术框架。其核心思想是将**信息检索**与**文本生成**相结合：当用户提出问题时，系统首先从一个外部、可动态更新的知识库中检索出与问题最相关的信息片段，然后将这些真实、权威的检索结果作为上下文输入给大语言模型，辅助其生成准确、可靠且具有时效性的回答。
+
+简而言之，RAG 让大模型“先查资料再作答”，而不是仅凭训练时学到的静态知识“凭记忆回答”。这种方式有效缓解了传统大模型常见的两个问题：
+
+1. **知识滞后**：模型训练完成后无法自动获取新知识；
+2. **幻觉（Hallucination）**：模型可能编造看似合理但实际错误或不存在的信息。
+
+因此，在该语境下，“RAG” 不是指日常所说的“破布”或“碎布”，而是一个专有技术术语，代表一种提升大模型回答质量与可信度的关键方法。在上述上下文中，“RAG” 是 “Retrieval-Augmented Generation”（检索增强生成）的缩写，指的是一种先进的人工智能技术框架。其核心思想是将**信息检索**与**文本生成**相结合：当用户提出问题时，系统首先从一个外部、可动态更新的知识库中检索出与问题最相关的信息片段，然后将这些真实、权威的检索结果作为上下文输入给大语言模型，辅助其生成准确、可靠且具有时效性的回答。
+
+简而言之，RAG 让大模型“先查资料再作答”，而不是仅凭训练时学到的静态知识“凭记忆回答”。这种方式有效缓解了传统大模型常见的两个问题：
+
+1. **知识滞后**：模型训练完成后无法自动获取新知识；
+2. **幻觉（Hallucination）**：模型可能编造看似合理但实际错误或不存在的信息。
+
+因此，在该语境下，“RAG” 不是指日常所说的“破布”或“碎布”，而是一个专有技术术语，代表一种提升大模型回答质量与可信度的关键方法。
+2026-05-11 21:45:36,356 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 21:45:40,711 - __main__ - INFO - 用户输入: 帮我把RAG介绍这篇文档翻译成英文
+2026-05-11 21:45:40,711 - __main__ - INFO - Agent 响应: Introduction to RAGAgent 运行失败: request_id: 4746ab1d-1b0e-90ba-ae7b-922cfa6aa96b 
+ status_code: 400 
+ code: InvalidParameter 
+ message: <400> InternalError.Algo.InvalidParameter: The "function.arguments" parameter of the code model must be in JSON format.
+2026-05-11 21:45:40,839 - dashscope - ERROR - 
+2026-05-11 21:50:27,282 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 21:50:31,888 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 21:50:31,989 - __main__ - INFO - 文档 'RAG介绍.docx' 删除成功
+2026-05-11 21:50:32,642 - __main__ - INFO - 当前文档列表: []
+2026-05-11 21:50:36,833 - __main__ - INFO - 开始处理文件: Agent介绍.docx
+2026-05-11 21:50:36,836 - __main__ - INFO - 文件保存路径: C:\Users\19836\PycharmProjects\smart_doc_ai\data\Agent介绍.docx
+2026-05-11 21:50:36,873 - __main__ - INFO - 加载到 1 个文档
+2026-05-11 21:50:36,873 - __main__ - INFO - 分块后得到 1 个块
+2026-05-11 21:50:37,890 - __main__ - INFO - 文档已添加到向量库
+2026-05-11 21:50:37,894 - __main__ - INFO - 上传后向量库中的文档: ['Agent介绍.docx']
+2026-05-11 21:50:37,895 - __main__ - INFO - 文件 'Agent介绍.docx' 上传成功
+2026-05-11 21:50:38,561 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:50:42,700 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:50:42,772 - __main__ - INFO - 文档 'Agent介绍.docx' 删除成功
+2026-05-11 21:50:43,418 - __main__ - INFO - 当前文档列表: []
+2026-05-11 21:50:49,368 - __main__ - INFO - 开始处理文件: Agent介绍.docx
+2026-05-11 21:50:49,371 - __main__ - INFO - 文件保存路径: C:\Users\19836\PycharmProjects\smart_doc_ai\data\Agent介绍.docx
+2026-05-11 21:50:49,373 - __main__ - INFO - 加载到 1 个文档
+2026-05-11 21:50:49,374 - __main__ - INFO - 分块后得到 1 个块
+2026-05-11 21:50:50,269 - __main__ - INFO - 文档已添加到向量库
+2026-05-11 21:50:50,272 - __main__ - INFO - 上传后向量库中的文档: ['Agent介绍.docx']
+2026-05-11 21:50:50,274 - __main__ - INFO - 文件 'Agent介绍.docx' 上传成功
+2026-05-11 21:50:50,925 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:50:52,765 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:50:52,857 - __main__ - INFO - 文档 'Agent介绍.docx' 删除成功
+2026-05-11 21:50:53,513 - __main__ - INFO - 当前文档列表: []
+2026-05-11 21:52:48,324 - __main__ - INFO - 当前文档列表: []
+2026-05-11 21:52:55,575 - __main__ - INFO - 开始处理文件: Agent介绍.docx
+2026-05-11 21:52:55,578 - __main__ - INFO - 文件保存路径: C:\Users\19836\PycharmProjects\smart_doc_ai\data\Agent介绍.docx
+2026-05-11 21:52:55,588 - __main__ - INFO - 加载到 1 个文档
+2026-05-11 21:52:55,589 - __main__ - INFO - 分块后得到 1 个块
+2026-05-11 21:52:56,497 - __main__ - INFO - 文档已添加到向量库
+2026-05-11 21:52:56,500 - __main__ - INFO - 上传后向量库中的文档: ['Agent介绍.docx']
+2026-05-11 21:52:56,502 - __main__ - INFO - 文件 'Agent介绍.docx' 上传成功
+2026-05-11 21:52:57,143 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:53:02,225 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:53:04,068 - __main__ - INFO - 用户输入: 你好
+2026-05-11 21:53:04,068 - __main__ - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-11 21:53:23,849 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:53:29,946 - __main__ - INFO - 用户输入: 帮我翻译Agent介绍这篇文档
+2026-05-11 21:53:29,946 - __main__ - INFO - Agent 响应: Agent Introduction是：“Agent Introduction”。如果您需要翻译整篇文档内容，请提供具体的文本内容，我会帮您完成完整翻译！
+2026-05-11 21:54:00,041 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:54:06,328 - __main__ - INFO - 用户输入: 帮我把Agent介绍.docx这篇文档翻译成英文
+2026-05-11 21:54:06,328 - __main__ - INFO - Agent 响应: Agent Introduction.docx文为 **"Agent Introduction.docx"**。
+
+如果你需要翻译文档的全部内容，请上传文档或提供具体内容，我可以帮你完成全文翻译！
+2026-05-11 21:54:30,619 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:54:32,243 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:58:02,276 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:58:08,717 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:58:10,566 - __main__ - INFO - 用户输入: 你好
+2026-05-11 21:58:10,567 - __main__ - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-11 21:58:27,977 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:58:33,267 - __main__ - INFO - 用户输入: 帮我把Agent介绍这篇文档翻译成英文
+2026-05-11 21:58:33,268 - __main__ - INFO - Agent 响应: 未找到文档: Agent介绍ent介绍”的文档。请确认文档名称是否正确，或者上传该文档后重试。
+2026-05-11 21:58:54,156 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 21:59:21,543 - __main__ - INFO - 用户输入: 帮我把Agent介绍.docx这篇文档翻译成英文
+2026-05-11 21:59:21,544 - __main__ - INFO - Agent 响应: An Agent—translated into Chinese as “intelligent agent”—is an artificial intelligence entity endowed with autonomous capabilities in perception, decision-making, execution, and iteration. Its core essence lies in “autonomously accomplishing complex tasks,” distinguishing it from traditional AI tools that require step-by-step human instructions. Agents represent a pivotal vehicle on the path toward Artificial General Intelligence (AGI).
+
+The defining characteristics of an Agent manifest in three key aspects:  
+First, autonomous perception and understanding—it can proactively capture environmental information and interpret user needs without requiring humans to manually decompose tasks.  
+Second, planning and decision-making—it can break down complex tasks into executable sub-steps, dynamically adjust its action logic, and respond effectively to unexpected situations.  
+Third, memory and iteration—it retains critical information gathered during task execution and continuously refines its behavioral patterns based on feedback, thereby enhancing efficiency in future executions.
+
+Its operational logic can be succinctly summarized as “Perceive–Think–Act–Iterate”:  
+Initially, it perceives the external environment and user requirements through sensors, data interfaces, and other input channels.  
+Next, leveraging the reasoning capabilities of large models combined with its own memory and toolset, it formulates an action plan.  
+It then invokes relevant tools to carry out specific steps.  
+Finally, it reviews its performance based on execution outcomes, refining its decision-making model for continuous improvement.
+
+Today, Agents are already widely deployed across domains such as office automation, intelligent customer service, autonomous driving, and scientific research assistance. They not only replace humans in performing repetitive, multi-step tasks but also support humans in tackling complex decision-making challenges, significantly boosting productivity. As such, Agents mark a critical milestone in the evolution of AI technology—from mere “tools” to truly “intelligent” systems.
+2026-05-11 22:04:06,568 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 22:04:18,727 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx']
+2026-05-11 22:04:18,803 - __main__ - INFO - 文档 'Agent介绍.docx' 删除成功
+2026-05-11 22:04:19,456 - __main__ - INFO - 当前文档列表: []
+2026-05-11 22:04:26,090 - __main__ - INFO - 开始处理文件: Agent介绍.docx
+2026-05-11 22:04:26,092 - __main__ - INFO - 文件保存路径: C:\Users\19836\PycharmProjects\smart_doc_ai\data\Agent介绍.docx
+2026-05-11 22:04:26,101 - __main__ - INFO - 加载到 1 个文档
+2026-05-11 22:04:26,101 - __main__ - INFO - 分块后得到 1 个块
+2026-05-11 22:04:26,988 - __main__ - INFO - 文档已添加到向量库
+2026-05-11 22:04:26,990 - __main__ - INFO - 上传后向量库中的文档: ['Agent介绍.docx']
+2026-05-11 22:04:26,992 - __main__ - INFO - 文件 'Agent介绍.docx' 上传成功
+2026-05-11 22:04:26,992 - __main__ - INFO - 开始处理文件: RAG介绍.docx
+2026-05-11 22:04:26,996 - __main__ - INFO - 文件保存路径: C:\Users\19836\PycharmProjects\smart_doc_ai\data\RAG介绍.docx
+2026-05-11 22:04:26,997 - __main__ - INFO - 加载到 1 个文档
+2026-05-11 22:04:26,998 - __main__ - INFO - 分块后得到 1 个块
+2026-05-11 22:04:27,902 - __main__ - INFO - 文档已添加到向量库
+2026-05-11 22:04:27,905 - __main__ - INFO - 上传后向量库中的文档: ['Agent介绍.docx', 'RAG介绍.docx']
+2026-05-11 22:04:27,907 - __main__ - INFO - 文件 'RAG介绍.docx' 上传成功
+2026-05-11 22:04:29,052 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx', 'RAG介绍.docx']
+2026-05-11 22:04:35,506 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx', 'RAG介绍.docx']
+2026-05-11 22:04:37,009 - __main__ - INFO - 用户输入: 你好
+2026-05-11 22:04:37,009 - __main__ - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-11 22:04:42,859 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx', 'RAG介绍.docx']
+2026-05-11 22:04:43,020 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx', 'RAG介绍.docx']
+2026-05-11 22:04:45,574 - __main__ - INFO - 当前文档列表: ['Agent介绍.docx', 'RAG介绍.docx']
+2026-05-11 22:04:45,657 - __main__ - INFO - 文档 'Agent介绍.docx' 删除成功
+2026-05-11 22:04:46,306 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 22:04:46,457 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']

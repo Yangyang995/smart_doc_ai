@@ -20,9 +20,6 @@ memory = ConversationMemory()
 if "messages" not in st.session_state:
     st.session_state.messages = memory.get_history()
 
-if "memory_type" not in st.session_state:
-    st.session_state.memory_type = "buffer"
-
 if 'uploader_key' not in st.session_state:
     st.session_state.uploader_key = 0
 
@@ -48,59 +45,45 @@ with st.sidebar:
     uploaded_files = st.file_uploader("选择文件", accept_multiple_files=True, type=["pdf", "docx", "txt", "md"], key=f"file_uploader_{st.session_state.uploader_key}")
     
     if uploaded_files:
+        has_new_file = False
         for uploaded_file in uploaded_files:
-            # 只处理新上传的文件，避免重复上传（检查向量库中是否已存在）
             if uploaded_file.name not in existing_docs:
                 try:
                     logger.info(f"开始处理文件: {uploaded_file.name}")
-                    
-                    # 保存文件
+
                     file_path = FileUtils.save_uploaded_file(uploaded_file)
                     logger.info(f"文件保存路径: {file_path}")
-                    
-                    # 加载文档
+
                     documents = DocumentLoader.load_document(file_path)
                     logger.info(f"加载到 {len(documents)} 个文档")
-                    
-                    # 分块
+
                     chunks = TextSplitter.split_text(documents)
                     logger.info(f"分块后得到 {len(chunks)} 个块")
-                    
-                    # 向量化并存储
+
                     retriever.add_document(chunks)
                     logger.info("文档已添加到向量库")
-                    
-                    # 更新已存在文档列表
+
                     existing_docs.append(uploaded_file.name)
-                    
-                    # 验证是否成功添加
+                    has_new_file = True
+
                     new_docs = retriever.get_document_list()
                     logger.info(f"上传后向量库中的文档: {new_docs}")
-                    
-                    # 使用success显示提示（会一直显示直到刷新）
+
                     st.success(f"文件 '{uploaded_file.name}' 上传成功！")
                     logger.info(f"文件 '{uploaded_file.name}' 上传成功")
 
-                    # 更新上传器key，强制重置上传器
-                    st.session_state.uploader_key += 1
-                    # 添加短暂延迟确保提示显示
-                    import time
-                    time.sleep(0.5)
-                    # 强制刷新页面
-                    st.rerun()
                 except Exception as e:
                     st.error(f"文件 '{uploaded_file.name}' 上传失败: {str(e)}")
                     logger.error(f"文件 '{uploaded_file.name}' 上传失败: {str(e)}")
             else:
                 logger.info(f"文件 {uploaded_file.name} 已存在于向量库中，跳过")
-                # 使用success显示提示（会一直显示直到刷新）
-                st.success(f"文件 '{uploaded_file.name}' 已上传过，无需重复上传！")
-                # 重置上传器，清除已选择的文件
-                st.session_state.uploader_key += 1
-                # 添加短暂延迟确保提示显示
-                import time
-                time.sleep(0.5)
-                st.rerun()
+                st.info(f"文件 '{uploaded_file.name}' 已上传过，无需重复上传！")
+
+        if has_new_file:
+            st.session_state.uploader_key += 1
+            import time
+            time.sleep(1)
+            st.rerun()
     
     # 知识库管理
     st.header("知识库管理")
@@ -141,15 +124,6 @@ with st.sidebar:
     
     # 会话设置
     st.header("会话设置")
-    memory_type = st.selectbox(
-        "会话记忆类型",
-        ["buffer", "summary"],
-        index=0 if st.session_state.memory_type == "buffer" else 1
-    )
-    if memory_type != st.session_state.memory_type:
-        memory.switch_type(memory_type)
-        st.session_state.memory_type = memory_type
-
     if st.button("清空会话历史"):
         memory.clear_memory()
         st.session_state.messages = []
@@ -175,13 +149,22 @@ if user_input := st.chat_input("请输入您的问题..."):
 
     # 流式输出助手回复
     with st.chat_message("assistant"):
+        thinking_placeholder = st.empty()
+        thinking_placeholder.markdown("🤔 AI 正在思考中...")
+
         response_placeholder = st.empty()
         full_response = ""
+        first_chunk = True
 
         for chunk in agent.stream(user_input):
+            if first_chunk:
+                thinking_placeholder.empty()
+                first_chunk = False
             full_response += chunk
             response_placeholder.markdown(full_response + "▌")
 
+        if first_chunk:
+            thinking_placeholder.empty()
         response_placeholder.markdown(full_response)
 
     # 保存助手回复
