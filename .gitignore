@@ -1,0 +1,19 @@
+# Environment variables
+.env
+
+# Chroma DB
+chroma_db/
+
+# Uploaded files
+data/
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+config/.env
