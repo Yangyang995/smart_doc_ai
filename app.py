@@ -12,19 +12,25 @@ from utils.logger import get_logger
 logger = get_logger(__name__)
 
 # 初始化组件
-retriever = Retriever()  # 检索器（文档向量化、存储、检索）
-agent = Agent()          # 智能代理（处理用户问题、调用检索、生成回答）
-memory = ConversationMemory()  # 会话记忆（存储/管理聊天记录）
+retriever = Retriever()
+agent = Agent()
+memory = ConversationMemory()
 
-# 获取当前向量库中的文档列表（用于检查是否重复上传）
+# 初始化 session_state
+if "messages" not in st.session_state:
+    st.session_state.messages = memory.get_history()
+
+if "memory_type" not in st.session_state:
+    st.session_state.memory_type = "buffer"
+
+if 'uploader_key' not in st.session_state:
+    st.session_state.uploader_key = 0
+
+# 获取当前向量库中的文档列表
 try:
     existing_docs = retriever.get_document_list()
 except Exception as e:
     existing_docs = []
-
-# 初始化上传器重置计数器
-if 'uploader_key' not in st.session_state:
-    st.session_state.uploader_key = 0
 
 # Streamlit 配置
 st.set_page_config(
@@ -135,57 +141,52 @@ with st.sidebar:
     
     # 会话设置
     st.header("会话设置")
-    memory_type = st.selectbox("会话记忆类型", ["buffer", "summary"])
+    memory_type = st.selectbox(
+        "会话记忆类型",
+        ["buffer", "summary"],
+        index=0 if st.session_state.memory_type == "buffer" else 1
+    )
+    if memory_type != st.session_state.memory_type:
+        memory.switch_type(memory_type)
+        st.session_state.memory_type = memory_type
+
     if st.button("清空会话历史"):
         memory.clear_memory()
-        st.success("会话历史已清空")
+        st.session_state.messages = []
+        st.rerun()
 
 # 主对话区
 st.title("智能文档AI助手")
 
-# 聊天历史
-st.subheader("聊天历史")
-chat_history = memory.get_history()
-for message in chat_history:
-    if message["role"] == "user":
-        st.chat_message("user").write(message["content"])
-    else:
-        st.chat_message("assistant").write(message["content"])
+# 显示历史对话
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
 # 输入区
-user_input = st.chat_input("请输入您的问题...")
+if user_input := st.chat_input("请输入您的问题..."):
+    # 显示用户消息
+    with st.chat_message("user"):
+        st.markdown(user_input)
 
-if user_input:
-    # 显示用户输入
-    st.chat_message("user").write(user_input)
-    
-    # 添加到会话记忆
+    # 保存用户消息
+    st.session_state.messages.append({"role": "user", "content": user_input})
     memory.add_message("user", user_input)
-    
-    # 显示思考中提示
+
+    # 流式输出助手回复
     with st.chat_message("assistant"):
-        # 显示思考状态
-        thinking_placeholder = st.empty()
-        thinking_placeholder.markdown("🤔 智能客服思考中...")
-        
-        # 使用流式输出显示 Agent 响应
-        response_container = st.empty()
+        response_placeholder = st.empty()
         full_response = ""
-        
-        # 首次获取响应时清除思考提示
-        first_response = True
+
         for chunk in agent.stream(user_input):
-            if first_response:
-                # 清除思考提示
-                thinking_placeholder.empty()
-                first_response = False
-            
-            # 逐字追加输出
             full_response += chunk
-            response_container.markdown(full_response)
-        
-        # 添加到会话记忆
-        memory.add_message("assistant", full_response)
-        
-        logger.info(f"用户输入: {user_input}")
-        logger.info(f"Agent 响应: {full_response}")
+            response_placeholder.markdown(full_response + "▌")
+
+        response_placeholder.markdown(full_response)
+
+    # 保存助手回复
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    memory.add_message("assistant", full_response)
+
+    logger.info(f"用户输入: {user_input}")
+    logger.info(f"Agent 响应: {full_response}")

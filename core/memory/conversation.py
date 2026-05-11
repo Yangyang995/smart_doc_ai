@@ -64,6 +64,19 @@ class ConversationMemory:
         """
         self.memory.clear()
 
+    def switch_type(self, new_type):
+        """
+        切换记忆类型（保留现有消息）
+        :param new_type: 新的记忆类型，buffer 或 summary
+        """
+        if new_type == self.memory_type:
+            return
+        old_messages = self.get_history()
+        self.memory_type = new_type
+        self.memory = self._create_memory()
+        for msg in old_messages:
+            self.add_message(msg["role"], msg["content"])
+
     def get_history(self):
         """
         获取历史对话

@@ -21,7 +21,8 @@ class Agent:
                 model=MODEL_NAME,
                 dashscope_api_key=DASHSCOPE_API_KEY,
                 temperature=TEMPERATURE,
-                max_tokens=MAX_TOKENS
+                max_tokens=MAX_TOKENS,
+                streaming=True
             )
         else:
             raise ValueError("请配置 DASHSCOPE_API_KEY")
@@ -72,9 +73,9 @@ class Agent:
 
     def stream(self, query):
         """
-        流式输出 Agent 响应（逐字输出）
+        流式输出 Agent 响应（token级别流式输出）
         :param query: 用户输入
-        :return: 生成器，逐字返回响应内容
+        :return: 生成器，逐token返回响应内容
         """
         try:
             input_dict = {
@@ -82,32 +83,28 @@ class Agent:
                     {"role": "user", "content": query}
                 ]
             }
-            
-            previous_content = ""
-            first_chunk = True
-            
-            for chunk in self.agent.stream(input_dict, stream_mode="values"):
-                latest_message = chunk["messages"][-1]
-                
-                # 跳过第一个 chunk（通常是用户消息的回显）
-                if first_chunk:
-                    first_chunk = False
+
+            for chunk in self.agent.stream(input_dict, stream_mode="messages"):
+                # stream_mode="messages" 返回 (message, metadata) 元组
+                if not isinstance(chunk, tuple) or len(chunk) < 1:
                     continue
-                
-                # 只返回 assistant 的消息
-                if hasattr(latest_message, 'content') and latest_message.content:
-                    content = latest_message.content.strip()
-                    
-                    # 检查消息内容是否是用户的问题（避免重复）
-                    if content == query.strip():
-                        continue
-                    
-                    # 计算新增的内容（增量输出）
-                    if len(content) > len(previous_content):
-                        new_content = content[len(previous_content):]
-                        # 逐字输出
-                        for char in new_content:
-                            yield char
-                        previous_content = content
+
+                message = chunk[0]
+                metadata = chunk[1] if len(chunk) > 1 else {}
+
+                # 只输出 AI 模型节点产生的消息，过滤工具调用和用户消息
+                msg_type = message.__class__.__name__ if hasattr(message, '__class__') else ''
+                if 'AI' not in msg_type:
+                    continue
+
+                if not hasattr(message, 'content') or not message.content:
+                    continue
+
+                # 跳过工具调用相关的 AI 消息（没有实际文本内容）
+                if hasattr(message, 'tool_calls') and message.tool_calls:
+                    continue
+
+                yield message.content
+
         except Exception as e:
             yield f"Agent 运行失败: {str(e)}"
