@@ -1494,3 +1494,6 @@ Today, Agents are already widely deployed across domains such as office automati
 2026-05-11 22:04:45,657 - __main__ - INFO - 文档 'Agent介绍.docx' 删除成功
 2026-05-11 22:04:46,306 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
 2026-05-11 22:04:46,457 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 22:05:29,989 - __main__ - INFO - 当前文档列表: ['RAG介绍.docx']
+2026-05-11 22:05:30,057 - __main__ - INFO - 文档 'RAG介绍.docx' 删除成功
+2026-05-11 22:05:30,705 - __main__ - INFO - 当前文档列表: []
