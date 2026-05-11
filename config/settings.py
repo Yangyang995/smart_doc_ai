@@ -1,8 +1,8 @@
 import os#用于操作系统路径、环境变量
 from dotenv import load_dotenv#用于加载 .env 文件中的环境变量
 
-# 加载环境变量
-load_dotenv()
+# 加载环境变量 — 指定 config 目录下的 .env 文件
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # os.path.abspath(__file__)：获取当前settings.py文件的绝对路径；
 # 两次os.path.dirname()：向上两级目录，得到项目的根目录（比如settings.py在config/下，根目录就是config/的上一级）
