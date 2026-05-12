@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能文档AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary-color: #8b5cf6;
+            --accent-color: #22d3ee;
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e1b4b;
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --card-bg: #ffffff;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+        }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            animation: typing 1.4s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.5;
+            }
+            30% {
+                transform: translateY(-6px) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.3s ease-out;
+        }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.8);
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-effect {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(51, 65, 85, 0.6);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(51, 65, 85, 0.8);
+            transform: translateY(-1px);
+        }
+
+        .upload-zone {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+            transform: scale(1.02);
+        }
+        .upload-zone.dragover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .doc-item {
+            transition: all 0.2s ease;
+        }
+        .doc-item:hover {
+            background: rgba(51, 65, 85, 0.8);
+            transform: translateX(4px);
+        }
+
+        .message-bubble {
+            transition: all 0.3s ease;
+        }
+        .message-bubble:hover {
+            transform: scale(1.01);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notification {
+            animation: slideInRight 0.3s ease-out, fadeOut 0.3s ease-in 2.5s forwards;
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        .input-focus-ring {
+            transition: all 0.3s ease;
+        }
+        .input-focus-ring:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+<body class="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 flex overflow-hidden">
+    <div class="flex h-full w-full">
+        <aside class="w-80 glass-effect border-r border-slate-700/50 flex flex-col">
+            <div class="p-6 border-b border-slate-700/50">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center pulse-glow">
+                        <i class="fa fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">智能文档AI助手</h1>
+                        <p class="text-xs text-slate-400">基于RAG的智能问答系统</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-6">
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+                        <i class="fa fa-cloud-upload text-indigo-400"></i>
+                        文档上传
+                    </h2>
+                    <div 
+                        class="upload-zone border-2 border-dashed border-slate-600 rounded-2xl p-6 text-center cursor-pointer"
+                        id="upload-area"
+                    >
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center">
+                            <i class="fa fa-cloud-upload text-2xl text-indigo-400"></i>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-1">点击或拖拽上传文件</p>
+                        <p class="text-xs text-slate-500">支持 PDF, DOCX, TXT, MD 格式</p>
+                        <input type="file" id="file-input" multiple accept=".pdf,.docx,.txt,.md" class="hidden">
+                    </div>
+                    <div id="upload-progress" class="mt-4 hidden">
+                        <div class="flex items-center gap-3">
+                            <i class="fa fa-circle-o-notch fa-spin text-indigo-400 text-sm"></i>
+                            <span class="text-xs text-slate-400">正在上传...</span>
+                        </div>
+                        <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden mt-2">
+                            <div class="h-full progress-bar rounded-full" id="progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+                        <i class="fa fa-folder-open text-emerald-400"></i>
+                        已上传文档
+                    </h2>
+                    <div id="document-list" class="space-y-2">
+                        <div class="text-center py-8">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-slate-800 flex items-center justify-center">
+                                <i class="fa fa-file-text-o text-slate-500 text-xl"></i>
+                            </div>
+                            <p class="text-sm text-slate-500">暂无上传的文档</p>
+                            <p class="text-xs text-slate-600 mt-1">上传文档开始智能问答</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-slate-700/50">
+                <button 
+                    id="clear-history" 
+                    class="btn-secondary w-full py-3 px-4 text-slate-300 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
+                >
+                    <i class="fa fa-trash-o text-slate-400"></i>
+                    清空会话历史
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col bg-slate-900/50">
+            <div class="flex-1 overflow-y-auto scrollbar-thin p-8" id="chat-container">
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="text-center py-12 fade-in">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl">
+                            <i class="fa fa-comments text-white text-3xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-3">欢迎使用智能文档AI助手</h2>
+                        <p class="text-slate-400 max-w-md mx-auto">
+                            上传您的文档，我可以帮助您进行智能分析、总结和问答
+                        </p>
+                        <div class="mt-6 flex items-center justify-center gap-4 text-xs text-slate-500">
+                            <span class="flex items-center gap-1">
+                                <i class="fa fa-check-circle text-emerald-400"></i>
+                                支持多格式文档
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <i class="fa fa-check-circle text-emerald-400"></i>
+                                实时流式响应
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <i class="fa fa-check-circle text-emerald-400"></i>
+                                智能问答
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-700/50 p-4">
+                <div class="max-w-3xl mx-auto">
+                    <div class="glass-effect rounded-2xl p-3">
+                        <div class="flex items-end gap-3">
+                            <div class="flex-1 relative">
+                                <textarea 
+                                    id="message-input" 
+                                    rows="1" 
+                                    placeholder="输入您的问题，我来帮您分析..." 
+                                    class="input-focus-ring w-full px-4 py-3 bg-transparent border-none resize-none focus:outline-none text-white placeholder-slate-500 text-sm leading-relaxed"
+                                ></textarea>
+                            </div>
+                            <button 
+                                id="send-button" 
+                                disabled 
+                                class="btn-primary px-6 py-3 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2 min-w-[100px] justify-center"
+                            >
+                                <i class="fa fa-paper-plane"></i>
+                                <span>发送</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between mt-2 px-2">
+                            <p class="text-xs text-slate-500">按 Enter 发送，Shift + Enter 换行</p>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-slate-600">
+                                    <i class="fa fa-lock text-xs mr-1"></i>
+                                    数据安全加密
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = '';
+
+        async function fetchDocuments() {
+            try {
+                const response = await fetch(`${API_BASE}/api/documents/list`);
+                const data = await response.json();
+                renderDocumentList(data.documents);
+            } catch (error) {
+                console.error('获取文档列表失败:', error);
+            }
+        }
+
+        function renderDocumentList(documents) {
+            const container = document.getElementById('document-list');
+            if (!documents || documents.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-slate-800 flex items-center justify-center">
+                            <i class="fa fa-file-text-o text-slate-500 text-xl"></i>
+                        </div>
+                        <p class="text-sm text-slate-500">暂无上传的文档</p>
+                        <p class="text-xs text-slate-600 mt-1">上传文档开始智能问答</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = documents.map(doc => `
+                <div class="doc-item flex items-center justify-between p-3 bg-slate-800/50 rounded-xl group cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center">
+                            <i class="fa fa-file-text text-indigo-400 text-sm"></i>
+                        </div>
+                        <span class="text-sm text-slate-300 truncate max-w-[180px]" title="${doc}">${doc}</span>
+                    </div>
+                    <button class="delete-doc p-2 text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all rounded-lg hover:bg-red-500/10" data-filename="${doc}">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </div>
+            `).join('');
+            attachDeleteListeners();
+        }
+
+        function attachDeleteListeners() {
+            document.querySelectorAll('.delete-doc').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const filename = e.currentTarget.dataset.filename;
+                    if (confirm(`确定要删除文档 "${filename}" 吗？此操作不可恢复。`)) {
+                        try {
+                            const response = await fetch(`${API_BASE}/api/documents/${encodeURIComponent(filename)}`, {
+                                method: 'DELETE'
+                            });
+                            if (response.ok) {
+                                fetchDocuments();
+                                showNotification(`文档 "${filename}" 已删除`, 'success');
+                            }
+                        } catch (error) {
+                            console.error('删除文档失败:', error);
+                            showNotification('删除文档失败', 'error');
+                        }
+                    }
+                });
+            });
+        }
+
+        async function uploadFiles(files) {
+            const uploadProgress = document.getElementById('upload-progress');
+            const progressBar = document.getElementById('progress-bar');
+            uploadProgress.classList.remove('hidden');
+            progressBar.style.width = '0%';
+
+            const formData = new FormData();
+            Array.from(files).forEach(file => formData.append('files', file));
+
+            try {
+                const response = await fetch(`${API_BASE}/api/documents/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                for (let i = 0; i <= 100; i += 10) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    progressBar.style.width = `${Math.min(i, 90)}%`;
+                }
+
+                const data = await response.json();
+                progressBar.style.width = '100%';
+                
+                setTimeout(() => {
+                    uploadProgress.classList.add('hidden');
+                    progressBar.style.width = '0%';
+                }, 500);
+
+                data.results.forEach(result => {
+                    const status = result.status === 'success' ? 'success' : result.status === 'skipped' ? 'warning' : 'error';
+                    showNotification(result.message, status);
+                });
+                
+                fetchDocuments();
+            } catch (error) {
+                console.error('上传失败:', error);
+                uploadProgress.classList.add('hidden');
+                progressBar.style.width = '0%';
+                showNotification('上传失败，请重试', 'error');
+            }
+        }
+
+        function showNotification(message, status) {
+            const notification = document.createElement('div');
+            const statusConfig = {
+                success: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', icon: 'check-circle' },
+                error: { bg: 'bg-red-500/20', text: 'text-red-400', icon: 'times-circle' },
+                warning: { bg: 'bg-amber-500/20', text: 'text-amber-400', icon: 'info-circle' }
+            };
+            const config = statusConfig[status] || statusConfig.warning;
+            
+            notification.className = `notification fixed top-6 right-6 px-5 py-3 rounded-xl shadow-2xl ${config.bg} ${config.text} flex items-center gap-3 z-50 max-w-sm`;
+            notification.innerHTML = `
+                <i class="fa fa-${config.icon} w-5 h-5 flex-shrink-0"></i>
+                <span class="text-sm font-medium">${message}</span>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 3500);
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            input.value = '';
+            document.getElementById('send-button').disabled = true;
+
+            addMessage('user', message);
+
+            const chatContainer = document.getElementById('chat-container');
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.className = 'fade-in';
+            thinkingDiv.innerHTML = `
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <i class="fa fa-robot text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1 max-w-[75%]">
+                        <div class="bg-slate-800/80 rounded-2xl rounded-tl-md p-4 message-bubble">
+                            <div class="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(thinkingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/chat/stream`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                let fullResponse = '';
+
+                thinkingDiv.remove();
+
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'fade-in';
+                responseDiv.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                            <i class="fa fa-robot text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1 max-w-[75%]">
+                            <div class="bg-slate-800/80 rounded-2xl rounded-tl-md p-4 message-bubble">
+                                <p class="text-slate-200 leading-relaxed text-sm"></p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatContainer.appendChild(responseDiv);
+
+                let isEnd = false;
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done || isEnd) break;
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n\n').filter(line => line.trim());
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(5));
+                                if (data.end) {
+                                    isEnd = true;
+                                    break;
+                                }
+                                if (data.content) {
+                                    fullResponse += data.content;
+                                    responseDiv.querySelector('p').textContent = fullResponse;
+                                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                                }
+                            } catch (e) {
+                                console.error('解析SSE数据失败:', e);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                thinkingDiv.remove();
+                addMessage('assistant', `对话失败: ${error.message}`);
+                showNotification('对话失败，请重试', 'error');
+            } finally {
+                document.getElementById('send-button').disabled = false;
+            }
+        }
+
+        function addMessage(role, content) {
+            const chatContainer = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+            
+            if (role === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start gap-4 justify-end fade-in">
+                        <div class="flex-1 max-w-[75%]">
+                            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl rounded-tr-md p-4 shadow-lg message-bubble">
+                                <p class="text-white leading-relaxed text-sm">${escapeHtml(content)}</p>
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0">
+                            <i class="fa fa-user text-slate-400 text-sm"></i>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start gap-4 fade-in">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                            <i class="fa fa-robot text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1 max-w-[75%]">
+                            <div class="bg-slate-800/80 rounded-2xl rounded-tl-md p-4 message-bubble">
+                                <p class="text-slate-200 leading-relaxed text-sm">${escapeHtml(content)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function clearHistory() {
+            if (confirm('确定要清空所有会话历史吗？此操作不可恢复。')) {
+                try {
+                    await fetch(`${API_BASE}/api/chat/clear`, {
+                        method: 'POST'
+                    });
+                    document.getElementById('chat-container').innerHTML = `
+                        <div class="max-w-3xl mx-auto space-y-6">
+                            <div class="text-center py-12 fade-in">
+                                <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl">
+                                    <i class="fa fa-comments text-white text-3xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-white mb-3">欢迎使用智能文档AI助手</h2>
+                                <p class="text-slate-400 max-w-md mx-auto">
+                                    上传您的文档，我可以帮助您进行智能分析、总结和问答
+                                </p>
+                                <div class="mt-6 flex items-center justify-center gap-4 text-xs text-slate-500">
+                                    <span class="flex items-center gap-1">
+                                        <i class="fa fa-check-circle text-emerald-400"></i>
+                                        支持多格式文档
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i class="fa fa-check-circle text-emerald-400"></i>
+                                        实时流式响应
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i class="fa fa-check-circle text-emerald-400"></i>
+                                        智能问答
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    showNotification('会话历史已清空', 'success');
+                } catch (error) {
+                    console.error('清空会话失败:', error);
+                    showNotification('清空会话失败', 'error');
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchDocuments();
+
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    uploadFiles(files);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                const files = e.target.files;
+                if (files.length > 0) {
+                    uploadFiles(files);
+                }
+                e.target.value = '';
+            });
+
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+
+            messageInput.addEventListener('input', () => {
+                sendButton.disabled = !messageInput.value.trim();
+            });
+
+            messageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            sendButton.addEventListener('click', sendMessage);
+
+            document.getElementById('clear-history').addEventListener('click', clearHistory);
+
+            messageInput.addEventListener('input', () => {
+                messageInput.style.height = 'auto';
+                messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+            });
+        });
+    </script>
+</body>
+</html>

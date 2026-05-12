@@ -4,7 +4,6 @@ langchain-community
 langchain-openai
 langchain-text-splitters
 chromadb
-streamlit
 pypdf
 python-docx
 python-dotenv
@@ -12,3 +11,6 @@ tiktoken
 dashscope
 langchain-community>=0.0.28
 dashscope>=1.14.0
+fastapi
+uvicorn
+python-multipart
