@@ -1554,3 +1554,163 @@ pip install python-multipart
 - "帮我润色这段文字..."
 
 请告诉我您需要什么帮助！
+2026-05-12 17:38:17,505 - api - INFO - 用户输入: 你都有哪些功能
+2026-05-12 17:38:17,506 - api - INFO - Agent 响应: 我具备以下几项主要功能，可以帮助您高效处理文档和文本内容：
+
+1. **文档总结**：可以对上传的文档进行总结，支持三种模式：
+   - 摘要式总结
+   - 要点式总结  
+   - 思维导图式总结
+
+2. **问答检索**：基于文档内容回答您的具体问题，从知识库中精准检索相关信息。
+
+3. **文本翻译**：支持文档或文本的翻译，可以翻译整篇文档或指定的文本片段到目标语言（默认英文）。
+
+4. **术语解释**：识别并详细解释专业术语的含义和用法。
+
+5. **文本润色**：提供多种文本处理服务，包括：
+   - 润色优化
+   - 扩写丰富内容
+   - 缩写精简文本
+   - 格式调整
+
+您可以根据需要使用这些功能来处理文档、获取信息或优化文本。有什么我可以帮您的吗？
+2026-05-12 17:38:24,025 - api - ERROR - 文件 'Agent介绍.docx' 上传失败: 保存文件失败: 'UploadFile' object has no attribute 'name'
+2026-05-12 17:38:51,437 - api - ERROR - 文件 'RAG介绍.docx' 上传失败: 保存文件失败: 'UploadFile' object has no attribute 'name'
+2026-05-12 17:43:52,306 - api - INFO - 会话历史已清空
+2026-05-12 17:44:28,652 - api - INFO - 文档 'nonexistent.pdf' 删除成功
+2026-05-12 17:45:21,622 - api - INFO - 用户输入: hello
+2026-05-12 17:45:21,622 - api - INFO - Agent 响应: Hello! How can I assist you today?
+2026-05-12 17:45:23,462 - api - ERROR - 文件 'test_upload.txt' 上传失败: 保存文件失败: 'UploadFile' object has no attribute 'name'
+2026-05-12 17:46:37,097 - __main__ - ERROR - 文件 'test_upload.txt' 上传失败: 保存文件失败: 'UploadFile' object has no attribute 'getbuffer'
+2026-05-12 17:47:50,629 - __main__ - INFO - 文件 'test_upload.txt' 上传成功
+2026-05-12 17:48:29,744 - __main__ - INFO - 文件 'multi1.txt' 上传成功
+2026-05-12 17:48:30,286 - __main__ - INFO - 文件 'multi2.txt' 上传成功
+2026-05-12 17:48:55,893 - __main__ - INFO - 文档 'multi1.txt' 删除成功
+2026-05-12 17:49:03,038 - __main__ - INFO - 用户输入: what documents do I have?
+2026-05-12 17:49:03,038 - __main__ - INFO - Agent 响应: I don't have access to a list of your documents directly. If you'd like me to check for specific content or help manage your documents, please provide more details or upload the files you'd like assistance with!
+2026-05-12 18:00:05,332 - api - INFO - 文件 'Agent介绍.docx' 上传成功
+2026-05-12 18:00:32,795 - api - INFO - 文档 'multi2.txt' 删除成功
+2026-05-12 18:00:35,476 - api - INFO - 文档 'test_upload.txt' 删除成功
+2026-05-12 18:01:17,803 - api - INFO - 用户输入: 什么是agent
+2026-05-12 18:01:17,804 - api - INFO - Agent 响应: 在这段上下文中，“agent”（中文译为“智能体”）指的是一种具备高度自主性的人工智能实体，其核心目标是能够独立完成复杂的任务，而不再像传统AI工具那样依赖人类一步步下达指令。
+
+具体来说，该术语强调以下三层含义：
+
+1. **自主性**：Agent 能主动感知环境、理解用户意图，并据此做出决策和行动，无需人工干预或任务拆解。例如，在办公场景中，它能自动整理会议纪要、安排日程并跟进待办事项，而不是等待用户逐条指示。
+
+2. **任务执行与适应能力**：面对复杂或多变的任务，Agent 能将其分解为若干子任务，规划执行路径，并在过程中根据新信息或突发情况动态调整策略，体现出类似人类的推理与应变能力。
+
+3. **持续学习与进化**：Agent 具备记忆机制，能记录过往经验与反馈，在后续任务中不断优化自身行为，实现“越用越聪明”的迭代效果。
+
+其运行遵循“感知 → 思考 → 行动 → 迭代”的闭环逻辑，依托大语言模型、工具调用能力和记忆系统协同工作。这种设计使 Agent 成为当前人工智能从被动“工具”向主动“伙伴”演进的关键形态，也是迈向通用人工智能（AGI）的重要技术路径。
+
+简言之，在此语境下，“agent”不是泛指任何代理程序，而是特指具备感知、推理、执行与自我优化能力的新一代智能AI系统。
+2026-05-12 18:02:23,810 - api - INFO - 用户输入: 帮我把Agent介绍.docx
+2026-05-12 18:02:23,810 - api - INFO - Agent 响应: An Agent—translated into Chinese as “intelligent agent”—is an artificial intelligence entity endowed with autonomous capabilities in perception, decision-making, execution, and iteration. Its core essence lies in “autonomously accomplishing complex tasks,” distinguishing it from traditional AI tools that require step-by-step human instructions. Agents represent a pivotal vehicle on the path toward Artificial General Intelligence (AGI).
+
+The defining characteristics of an Agent manifest in three key aspects:  
+First, **autonomous perception and understanding**—it can proactively capture environmental information and interpret user intent without requiring humans to manually decompose tasks.  
+Second, **planning and decision-making**—it can break down complex tasks into executable sub-steps, dynamically adjust its action logic, and respond effectively to unexpected situations.  
+Third, **memory and iterative learning**—it retains critical information gathered during task execution and continuously refines its behavioral patterns based on feedback, thereby enhancing efficiency in future operations.
+
+Its operational workflow can be succinctly summarized as “Perceive–Think–Act–Iterate”:  
+Initially, it perceives the external environment and user needs through sensors, data interfaces, and other input channels.  
+Next, leveraging the reasoning capabilities of large language models, combined with its internal memory and toolset, it formulates an action plan.  
+It then invokes relevant tools to carry out specific steps.  
+Finally, it reviews execution outcomes, reflects on performance, and refines its decision-making model accordingly.
+
+Today, Agents are already widely deployed across domains such as office automation, intelligent customer service, autonomous driving, and scientific research assistance. They not only replace humans in performing repetitive, multi-step tasks but also support humans in tackling complex decision-making challenges—significantly boosting productivity. As such, Agents mark a critical milestone in the evolution of AI technology from mere “tooling” to true “intelligence.”
+2026-05-12 18:12:56,397 - api - INFO - 用户输入: 你好
+2026-05-12 18:12:56,398 - api - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-12 18:13:28,699 - api - INFO - 用户输入: 什么是agent
+2026-05-12 18:13:28,700 - api - INFO - Agent 响应: 在当前语境下，“agent”（中文常译为“智能体”）指的是一种具备高度自主性的人工智能实体，其核心目标是能够独立、高效地完成复杂任务，而不仅限于被动响应人类指令。
+
+具体来说，这里的“agent”具有以下三层关键特征：
+
+1. **自主感知与理解**：它能主动从环境中获取信息（如用户输入、系统状态、外部数据等），并准确理解任务意图或用户需求，无需人类将任务进一步细化或解释。
+
+2. **规划与决策能力**：面对复杂任务，agent 能自行将其分解为多个可执行的子任务，制定行动策略，并在执行过程中根据实际情况灵活调整计划，应对变化或意外情况。
+
+3. **记忆与迭代学习**：agent 能记录过往任务的经验和结果，结合反馈不断优化自身的决策逻辑和行为模式，实现持续进化和性能提升。
+
+其运行机制遵循“感知 → 思考 → 行动 → 迭代”的闭环流程：先感知环境与需求，再通过内部模型（如大语言模型）进行推理和规划，接着调用工具执行操作，最后复盘结果以改进未来表现。
+
+因此，在这一语境下，“agent”代表的是AI从传统“工具”（需人一步步指挥）向“智能伙伴”（能自主思考与行动）演进的关键形态，被视为迈向通用人工智能（AGI）的重要技术路径。
+2026-05-12 18:14:34,234 - api - INFO - 文件 'RAG介绍.docx' 上传成功
+2026-05-12 18:15:18,802 - api - INFO - 用户输入: 什么是rag
+2026-05-12 18:15:18,802 - api - INFO - Agent 响应: **RAG（Retrieval-Augmented Generation）**，中文称为**检索增强生成**，是一种先进的人工智能技术架构，旨在提升大语言模型（LLM）在回答问题时的准确性、时效性与可靠性。它通过将外部知识检索与语言生成能力结合，弥补了传统大模型仅依赖训练数据所带来的局限性。
+
+### RAG 的核心机制包含两个关键环节：
+
+1. **检索（Retrieval）**  
+   - 当用户提出一个问题时，系统会从一个可动态更新的外部知识库（如企业文档、最新新闻、专业数据库等）中，快速查找与问题最相关的信息片段。
+   - 这相当于为大模型“临时接入”一个实时、权威的知识源，而不是仅靠其训练时学到的静态知识。
+
+2. **生成（Generation）**  
+   - 大模型在生成回答时，会参考检索到的相关信息，将其整合进回答内容中。
+   - 这样生成的答案不仅语言流畅，而且有据可依，显著降低了“幻觉”（即编造虚假信息）的风险。
+
+### RAG 相较于传统生成式 AI 的三大优势：
+- **知识可实时更新**：只需更新知识库，无需重新训练整个大模型，即可让 AI 掌握最新信息（如政策变化、产品更新等）。
+- **减少幻觉**：回答基于真实检索到的资料，可信度高。
+- **成本效益高**：避免了频繁微调或重训大模型带来的高昂计算和时间成本。
+
+### 应用场景举例：
+- 智能客服：准确回答客户关于最新服务条款的问题。
+- 企业知识管理：员工快速查询内部文档或操作手册。
+- 科研辅助：基于最新论文或数据生成综述。
+- 医疗/法律咨询：引用权威指南或法规条文提供可靠建议。
+
+### 总结：
+在当前 AI 技术落地实践中，**RAG 是连接通用大模型与垂直领域知识的关键桥梁**。它让 AI 不仅“会说话”，更能“说对的话”，是提升生成式 AI 实用性和可信度的核心技术之一。
+2026-05-12 18:20:10,710 - api - INFO - 用户输入: 帮我总结RAG介绍.docx这篇文档
+2026-05-12 18:20:10,710 - api - INFO - Agent 响应: RAG（检索增强生成）是一种融合检索与生成能力的AI技术，通过“检索外部知识+生成精准回答”的模式，有效缓解传统大模型存在的知识滞后和幻觉问题。其核心流程包含两个关键环节：首先从可实时更新的知识库中检索相关信息，然后结合大语言模型生成准确、可靠的回答。
+
+相比传统生成式AI，RAG具有三大优势：
+1. **知识实时更新**：依托外部知识库，确保信息时效性；
+2. **降低幻觉风险**：基于真实数据生成答案，提高可靠性；
+3. **成本可控**：无需频繁重新训练大模型。
+
+目前，RAG已广泛应用于智能客服、知识问答、科研辅助和企业文档查询等场景，是当前AI落地实践中极具实用性的关键技术。
+2026-05-12 18:22:12,578 - api - INFO - 用户输入: 帮我总结Agent介绍.docx这篇文档
+2026-05-12 18:22:12,579 - api - INFO - Agent 响应: Agent（智能体）是具备自主感知、决策、执行与迭代能力的人工智能实体，被视为通向通用人工智能的关键载体。其三大核心特征包括：自主感知与理解环境及用户需求；规划与动态调整任务执行路径；通过记忆与反馈持续优化行为。Agent的运行逻辑遵循“感知-思考-行动-迭代”循环，目前已广泛应用于办公自动化、智能客服、自动驾驶和科研辅助等领域，显著提升效率，标志着AI从“工具化”迈向“智能化”。
+2026-05-12 18:27:32,957 - api - INFO - 用户输入: 帮我总结Agent介绍.docx这篇文档
+2026-05-12 18:27:32,957 - api - INFO - Agent 响应: Agent（智能体）是具备自主感知、决策、执行与迭代能力的人工智能实体，被视为通向通用人工智能的关键载体。其三大核心特征包括：  
+1. **自主感知与理解**：能够感知环境并理解用户需求；  
+2. **规划与动态调整**：可自主规划任务路径，并根据实际情况动态调整；  
+3. **持续优化**：通过记忆和反馈机制不断优化自身行为。  
+
+Agent 的运行逻辑遵循“感知-思考-行动-迭代”循环，目前已广泛应用于办公自动化、智能客服、自动驾驶和科研辅助等领域，显著提升效率，标志着 AI 从“工具化”迈向“智能化”。
+2026-05-12 18:29:24,765 - api - INFO - 用户输入: 帮我总结Agent介绍.docx这篇文档
+2026-05-12 18:29:24,765 - api - INFO - Agent 响应: Agent（智能体）是具备自主感知、决策、执行与迭代能力的人工智能实体，被视为通向通用人工智能的关键载体。其三大核心特征包括：自主感知与理解环境及用户需求；规划与动态调整任务执行路径；通过记忆与反馈持续优化行为。Agent的运行逻辑遵循“感知-思考-行动-迭代”循环，目前已广泛应用于办公自动化、智能客服、自动驾驶和科研辅助等领域，显著提升效率，标志着AI从“工具化”迈向“智能化”。
+2026-05-12 18:38:23,370 - api - INFO - 用户输入: 你好
+2026-05-12 18:38:23,371 - api - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-12 18:46:06,084 - api - INFO - 用户输入: 你好
+2026-05-12 18:46:06,085 - api - INFO - Agent 响应: 你好！有什么我可以帮你的吗？
+2026-05-12 18:46:13,394 - api - INFO - 用户输入: 你是谁
+2026-05-12 18:46:13,395 - api - INFO - Agent 响应: 我是一个专业的文档分析助手，能够帮助您总结文档、回答问题、翻译文本、解释术语以及润色文字。我可以使用多种工具来处理您上传的文档或提供的文本内容。有什么我可以帮您的吗？
+2026-05-12 18:46:48,469 - api - INFO - 用户输入: 帮我总结Agent介绍.docx这篇文档
+2026-05-12 18:46:48,469 - api - INFO - Agent 响应: Agent（智能体）是具备自主感知、决策、执行与迭代能力的人工智能实体，被视为通向通用人工智能的关键载体。其三大核心特征包括：  
+1. **自主感知与理解**：能够感知环境并理解用户需求；  
+2. **规划与动态调整**：可制定任务策略并根据实际情况灵活调整；  
+3. **持续优化**：通过记忆和反馈机制不断改进自身行为。  
+
+Agent的运行遵循“感知-思考-行动-迭代”的循环逻辑，目前已在办公自动化、智能客服、自动驾驶和科研辅助等领域广泛应用，显著提升效率，标志着AI正从“工具化”迈向“智能化”。
+2026-05-12 18:47:22,071 - api - INFO - 用户输入: 帮我总结RAG介绍.docx这篇文档
+2026-05-12 18:47:22,071 - api - INFO - Agent 响应: RAG（检索增强生成）是一种结合外部知识检索与大模型生成能力的人工智能技术，通过“检索+生成”模式提升AI回答的准确性、时效性与可靠性。其核心包括两个环节：从可实时更新的知识库中检索相关信息，并基于检索结果生成有依据的回答。
+
+相比传统生成式AI，RAG具有三大优势：
+1. **知识可实时更新**：依托外部知识库，无需重新训练模型即可获取最新信息；
+2. **降低幻觉风险**：回答基于真实检索内容，减少虚构或错误信息；
+3. **成本可控**：避免频繁训练大模型带来的高昂开销。
+
+目前，RAG已广泛应用于智能客服、知识问答、科研辅助和企业文档查询等场景，是当前AI落地应用的关键实用技术。
+2026-05-12 18:54:36,350 - api - INFO - 用户输入: 帮我总结Agent介绍.docx这篇文档
+2026-05-12 18:54:36,351 - api - INFO - Agent 响应: Agent（智能体）是具备自主感知、决策、执行与迭代能力的人工智能实体，被视为通向通用人工智能的关键载体。其三大核心特征包括：
+
+1. **自主感知与理解**：能够感知环境并理解用户需求；
+2. **规划与动态决策**：可拆解复杂任务，并在执行过程中灵活调整策略；
+3. **记忆与持续迭代**：通过反馈不断优化自身行为。
+
+Agent的运行遵循“感知-思考-行动-迭代”的闭环逻辑，目前已广泛应用于办公自动化、智能客服、自动驾驶和科研辅助等领域，显著提升效率，标志着AI从“工具化”迈向“智能化”。

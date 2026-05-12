@@ -8,6 +8,7 @@ from core.agent.agent import Agent
 from core.memory.conversation import ConversationMemory
 from utils.file_utils import FileUtils
 from utils.logger import get_logger
+import asyncio
 import os
 import json
 
@@ -102,15 +103,25 @@ async def chat_stream(message: dict):
         
         async def generate():
             full_response = ""
-            for chunk in agent.stream(user_input):
-                full_response += chunk
-                yield f"data: {json.dumps({'content': chunk})}\n\n"
-                import asyncio
-                await asyncio.sleep(0.01)
-            
+            for event in agent.stream(user_input):
+                event_type = event.get("type", "content")
+
+                if event_type == "content":
+                    content = event.get("content", "")
+                    full_response += content
+                    yield f"data: {json.dumps({'type': 'content', 'content': content})}\n\n"
+                elif event_type == "tool_call":
+                    yield f"data: {json.dumps({'type': 'tool_call', 'tool': event.get('tool'), 'label': event.get('label'), 'args': event.get('args')})}\n\n"
+                elif event_type == "tool_result":
+                    yield f"data: {json.dumps({'type': 'tool_result', 'tool': event.get('tool'), 'label': event.get('label'), 'preview': event.get('preview')})}\n\n"
+                elif event_type == "end":
+                    break
+
+                await asyncio.sleep(0.03)
+
             memory.add_message("assistant", full_response)
-            yield 'data: {"end": true}\n\n'
-            
+            yield 'data: {"type": "end"}\n\n'
+
             logger.info(f"用户输入: {user_input}")
             logger.info(f"Agent 响应: {full_response}")
         

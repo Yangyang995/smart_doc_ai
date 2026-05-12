@@ -71,19 +71,21 @@ class Agent:
         except Exception as e:
             return f"Agent 运行失败: {str(e)}"
 
+    TOOL_LABELS = {
+        "rag_qa": "检索知识库",
+        "document_summary": "文档总结",
+        "text_translation": "文本翻译",
+        "term_explanation": "术语解释",
+        "text_polish": "文本润色",
+    }
+
     def stream(self, query):
         """
-        流式输出 Agent 响应
-        使用 stream_mode="updates" 获取图节点级别的更新，
-        通过计算内容增量实现流式效果，同时兼容 function calling。
+        流式输出 Agent 响应，支持思考过程展示。
+        返回结构化事件：tool_call / tool_result / content / end
         """
         try:
-            input_dict = {
-                "messages": [
-                    {"role": "user", "content": query}
-                ]
-            }
-
+            input_dict = {"messages": [{"role": "user", "content": query}]}
             previous_content = ""
 
             for chunk in self.agent.stream(input_dict, stream_mode="updates"):
@@ -92,22 +94,49 @@ class Agent:
                         continue
 
                     for msg in node_output["messages"]:
-                        if not hasattr(msg, 'content') or not msg.content:
-                            continue
-                        if not isinstance(msg.content, str):
-                            continue
+                        # 工具调用事件
                         if hasattr(msg, 'tool_calls') and msg.tool_calls:
-                            continue
+                            for tc in msg.tool_calls:
+                                tool_name = tc.get("name", "unknown")
+                                label = self.TOOL_LABELS.get(tool_name, tool_name)
+                                yield {
+                                    "type": "tool_call",
+                                    "tool": tool_name,
+                                    "label": label,
+                                    "args": tc.get("args", {})
+                                }
 
-                        content = msg.content
-                        if len(content) > len(previous_content):
-                            new_content = content[len(previous_content):]
-                            for char in new_content:
-                                yield char
-                            previous_content = content
+                        # 工具返回结果事件
+                        if hasattr(msg, 'name') and msg.name:
+                            label = self.TOOL_LABELS.get(msg.name, msg.name)
+                            result_preview = str(msg.content)[:300] if msg.content else ""
+                            yield {
+                                "type": "tool_result",
+                                "tool": msg.name,
+                                "label": label,
+                                "preview": result_preview
+                            }
+
+                        # 最终文本内容（非工具调用消息）
+                        if hasattr(msg, 'content') and msg.content and isinstance(msg.content, str):
+                            if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                                continue
+                            if hasattr(msg, 'name') and msg.name:
+                                continue
+
+                            content = msg.content
+                            if len(content) > len(previous_content):
+                                new_content = content[len(previous_content):]
+                                previous_content = content
+                                # 将新内容拆分为小段，模拟逐字流式输出
+                                chunk_size = 3
+                                for i in range(0, len(new_content), chunk_size):
+                                    yield {"type": "content", "content": new_content[i:i + chunk_size]}
 
             if not previous_content:
-                yield "抱歉，未能生成回复，请重试。"
+                yield {"type": "content", "content": "抱歉，未能生成回复，请重试。"}
 
         except Exception as e:
-            yield f"Agent 运行失败: {str(e)}"
+            yield {"type": "content", "content": f"Agent 运行失败: {str(e)}"}
+
+        yield {"type": "end"}

@@ -17,11 +17,11 @@ class FileUtils:
                 os.makedirs(DATA_DIR)
             
             # 构建保存路径
-            file_path = os.path.join(DATA_DIR, uploaded_file.name)
+            file_path = os.path.join(DATA_DIR, uploaded_file.filename)
             
             # 保存文件
             with open(file_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
+                f.write(uploaded_file.file.read())
             
             return file_path
         except Exception as e:
