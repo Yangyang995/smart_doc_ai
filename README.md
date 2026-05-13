@@ -6,7 +6,7 @@
 
 - **私有 RAG 知识库**：支持上传 PDF、Word、纯文本和 Markdown 格式的文档，构建专属知识库
 - **Agent 自主决策**：内置多个文档处理工具，通过 LangGraph 实现自主判断和工具调用
-- **Web 界面**：使用 Streamlit 提供简单易用的用户界面，支持会话记忆和历史对话
+- **Web 界面**：使用 FastAPI + 静态前端页面提供简单易用的用户界面，支持会话记忆和历史对话
 
 ## 环境搭建
 
@@ -43,10 +43,10 @@ EMBEDDING_MODEL=text-embedding-3-small
 ## 运行命令
 
 ```bash
-streamlit run app.py
+python api.py
 ```
 
-运行后，在浏览器中访问输出的 URL 即可使用。
+运行后，在浏览器中访问 `http://localhost:8000` 即可使用。
 
 ## 核心模块说明
 
