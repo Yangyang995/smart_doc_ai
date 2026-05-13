@@ -1,0 +1,8 @@
+# 排除静态前端文件，不参与语言统计
+static/** linguist-vendored
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+
+# 强制 Python 为主语言
+*.py linguist-language=Python
